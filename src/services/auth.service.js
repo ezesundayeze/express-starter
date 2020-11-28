@@ -17,10 +17,11 @@ class AuthService {
   async signup(data) {
     let user = await User.findOne({ email: data.email });
     if (user) throw new CustomError("Email already exists");
-
     user = new User(data);
+
     const token = JWT.sign({ id: user._id }, JWTSecret);
     await user.save();
+    await this.RequestEmailVerification(user.email);
     return (data = {
       uid: user._id,
       email: user.email,
@@ -40,12 +41,9 @@ class AuthService {
     //Check if user password is correct
     const isCorrect = await bcrypt.compare(data.password, user.password);
     if (!isCorrect) throw new CustomError("Incorrect email or password");
-
-    const token = await JWT.sign(
-      { id: user._id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: 60 * 60 }
-    );
+    const token = await JWT.sign({ id: user._id, role: user.role }, JWTSecret, {
+      expiresIn: 60 * 60,
+    });
 
     return (data = {
       uid: user._id,
@@ -95,7 +93,7 @@ class AuthService {
     const link = `${url.client}/email-verification?uid=${user._id}&verifyToken=${verifyToken}`;
 
     //send mail
-    sendEmail(
+    await sendEmail(
       user.email,
       "Raveshift: Verify Email",
       {
@@ -111,7 +109,6 @@ class AuthService {
     const { userId, verifyToken } = data;
 
     const user = await User.findOne({ _id: userId });
-    console.log(user);
     if (!user) throw new CustomError("User does not exist");
     if (user.isVerified) throw new CustomError("Email is already verified");
 

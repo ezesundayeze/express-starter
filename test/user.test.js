@@ -11,11 +11,11 @@ afterAll(async () => {
 describe("User Test", () => {
   it("should create a new user", async () => {
     const user = await request.post(`${TEST_BASE_URL}/auth/signup`).send({
-      email: "mailshtome@gmail.com",
+      email: "mailstoeze@gmail.com",
       name: "Peter",
       password: "Password",
     });
     expect(user.body.error).toBe(false);
-    expect(user.body.data.email).toBe("mailshtome@gmail.com");
+    expect(user.body.data.email).toBe("mailstoeze@gmail.com");
   });
 });
