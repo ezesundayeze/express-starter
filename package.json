@@ -1,7 +1,7 @@
 {
   "name": "raveshift",
   "version": "0.0.1",
-  "description": "A simple crytocurrency exchange app",
+  "description": "A simple express starter app",
   "main": "app.js",
   "dependencies": {
     "axios": "^0.21.0",
