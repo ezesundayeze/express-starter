@@ -21,7 +21,6 @@ class AuthService {
     user = new User(data);
     const token = JWT.sign({ id: user._id }, JWTSecret);
     await user.save();
-
     return (data = {
       uid: user._id,
       email: user.email,
