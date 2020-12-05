@@ -1,12 +1,10 @@
 const router = require("express").Router();
-const UserCtrl = require("../controllers/user.controler");
+const AuthController = require("../controllers/user.controler");
 const auth = require("../middlewares/auth.middleware");
-// const { role } = require("../config");
 
-router.post("/", UserCtrl.create);
-router.get("/", UserCtrl.getAll);
-router.get("/:userId", UserCtrl.getOne);
-router.put("/:userId", UserCtrl.update);
-router.delete("/:userId", UserCtrl.delete);
+router.get("/", AuthController.getAll);
+router.get("/:userId", AuthController.getOne);
+router.put("/:userId", AuthController.update);
+router.delete("/:userId", AuthController.delete);
 
 module.exports = router;
